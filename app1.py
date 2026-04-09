@@ -201,9 +201,11 @@ def train_all_models(df):
     ano_scores = iso.decision_function(X_s)
     return results, sc, le, Xte, yte, ano_scores, X_s
 
-@st.cache_data(hash_funcs={np.ndarray: lambda x: x.tobytes()})
+
 def pca_embed(X_s, labels, n=1500):
-    idx = np.random.choice(len(X_s), min(n,len(X_s)), replace=False)
+    """PCA embedding - called once after training, no cache needed."""
+    np.random.seed(7)
+    idx = np.random.choice(len(X_s), min(n, len(X_s)), replace=False)
     pca = PCA(n_components=3, random_state=42)
     emb = pca.fit_transform(X_s[idx])
     return emb, np.array(labels)[idx], pca.explained_variance_ratio_
