@@ -78,3 +78,4 @@ ids_app/
 ├── requirements.txt  # Python dependencies
 └── README.md         # This file
 ```
+The link is:- https://intrusion-detector-nvfnjzoxbpqcbybsegcyly.streamlit.app/
