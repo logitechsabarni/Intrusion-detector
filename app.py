@@ -1092,11 +1092,14 @@ elif "Threat Intel" in page:
     tl = atk_t.groupby(['bucket','label']).size().reset_index(name='n')
     fig_tl = go.Figure()
     for lbl in atk_t['label'].unique():
-        sub_tl = tl[tl['label']==lbl]
-        fig_tl.add_trace(go.Scatter(x=sub_tl['bucket'],y=sub_tl['n'],
-            name=lbl,mode='lines',stackgroup='one',
-            line=dict(color=COLOR_MAP.get(lbl,'#00d4ff'),width=1),
-            fillcolor=COLOR_MAP.get(lbl,'#00d4ff')+'55'))
+    sub_tl = tl[tl['label']==lbl]
+    hex_color = COLOR_MAP.get(lbl, '#00d4ff').lstrip('#')
+    r, g, b = int(hex_color[0:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16)
+    fill_rgba = f'rgba({r},{g},{b},0.33)'
+    fig_tl.add_trace(go.Scatter(x=sub_tl['bucket'],y=sub_tl['n'],
+        name=lbl,mode='lines',stackgroup='one',
+        line=dict(color=COLOR_MAP.get(lbl,'#00d4ff'),width=1),
+        fillcolor=fill_rgba))
     fig_tl.update_layout(**CHART_LAYOUT,height=300,
         xaxis=dict(gridcolor='rgba(0,212,255,0.04)'),yaxis=dict(gridcolor='rgba(0,212,255,0.04)'),
         legend=dict(bgcolor='rgba(0,0,0,0)',font=dict(size=9)))
